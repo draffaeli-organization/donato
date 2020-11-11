@@ -1,0 +1,23 @@
+{
+  "name": "donato",
+  "version": "1.0.0",
+  "description": "backend for cooking recipe solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/draffaeli/donato.git"
+  },
+  "author": "Diego Raffaeli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/draffaeli/donato/issues"
+  },
+  "homepage": "https://github.com/draffaeli/donato#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
