@@ -13,7 +13,7 @@ const expressApp = express()
 expressApp.use('/', interceptors)
 
 // routes
-routes.configure(expressApp)
+routes.forEach(r => expressApp.use('/',r))
 
 // server init
 const port = 3000
