@@ -158,6 +158,39 @@
         }
       ],
       "servings": 2
+    },
+    {
+      "id": 3,
+      "name": "Sandwich de queso y membrillo",
+      "description": "Triangulos de queso y membrillo regados con oregano y tomillo",
+      "punctuations": [3,4,1],
+      "ingredients": [
+        {
+          "name": "Queso semicurado",
+          "quantity": 2,
+          "measure": "laminas"
+        },
+        {
+          "name": "Membrillo",
+          "quantity": 1,
+          "measure": "lamina"
+        },
+        {
+          "name": "Oregano",
+          "measure": "cantidad necesaria"
+        }
+      ],
+      "steps": [
+        {
+          "order": 0,
+          "description": "Disponemos el membrillo entre las láminas de queso como si fuera un sándwich. Partimos por la mitad de tal manera que quede de forma triangular."
+        },
+        {
+          "order": 1,
+          "description": "Los disponemos en un plato al gusto, aliñamos con aceite de oliva virgen extra y condimentamos con orégano fresco y un poco de tomillo limón al gusto."
+        }
+      ],
+      "servings": 2
     }
   ]
 }
