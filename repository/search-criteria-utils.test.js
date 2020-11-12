@@ -12,7 +12,7 @@ test("search-criteria-utils.isEmpty -> some string, return false", t => {
     // act
     let actualResponse = criteriaUtils.isEmpty(value);
 
-    // assersions
+    // assertions
     t.false(actualResponse)
 })
 
@@ -23,7 +23,7 @@ test("search-criteria-utils.isEmpty -> undefined, return true", t => {
     // act
     let actualResponse = criteriaUtils.isEmpty(value);
 
-    // assersions
+    // assertions
     t.true(actualResponse)
 })
 
