@@ -3,9 +3,8 @@
 const express = require('express')
 const router = express.Router();
 
-// interceptor
+// dummy interceptor
 router.use((request, response, next) => {
-    console.log(`request received from ${request.rawHeaders}`)
     next()
 })
 

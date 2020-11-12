@@ -2,20 +2,21 @@
 
 const express = require('express')
 const http = require('http');
-const routerController = require('./controller')
+const routes = require('./routes')
 const interceptors = require('./interceptors')
-const packageJson = require('../package.json')
 
 const expressApp = express()
-const port = 3000
 
-// interceptors
+// parser
+
+// interceptors & error handling
 expressApp.use('/', interceptors)
 
 // routes
-expressApp.use('/', routerController)
+routes.configure(expressApp)
 
-// server
+// server init
+const port = 3000
 http.createServer(expressApp).listen(port, ()=> {
-    console.log(`${packageJson.name} is listening on port ${port}`)
+    console.log(`Server is listening on port ${port}`)
 });
