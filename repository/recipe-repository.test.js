@@ -98,7 +98,7 @@ test("recipe-repository.retrieve -> by id, not found, return undefined recipe", 
     sandbox.restore()
 })
 
-test("recipe-repository.retrieve -> by description, some recipes found matching by name, by description and ingredients", t => {
+test("recipe-repository.retrieve -> by text, some recipes found matching by name, by description and ingredients", t => {
     const sandbox = sinon.createSandbox();
 
     // arrange
@@ -111,7 +111,7 @@ test("recipe-repository.retrieve -> by description, some recipes found matching 
         {"id":3,"name":"huevos revueltos","description":"huevos revueltos en tostada de pan integral","punctuations":[3],"ingredients":[{"name":"huevos","quantity":3,"measure":"unidad"}]}
         ]
     // act
-    const actualResponse = repository.retrieve(repository.searchMode.BY_DESCRIPTION, "pan")
+    const actualResponse = repository.retrieve(repository.searchMode.BY_TEXT, "pan")
 
     // assertions
     t.deepEqual(expectedResponse, actualResponse)
@@ -120,7 +120,7 @@ test("recipe-repository.retrieve -> by description, some recipes found matching 
     sandbox.restore()
 })
 
-test("recipe-repository.retrieve -> by description, not found, return empty array", t => {
+test("recipe-repository.retrieve -> by text, not found, return empty array", t => {
     const sandbox = sinon.createSandbox();
 
     // arrange
@@ -130,7 +130,7 @@ test("recipe-repository.retrieve -> by description, not found, return empty arra
     const expectedResponse = []
 
     // act
-    const actualResponse = repository.retrieve(repository.searchMode.BY_DESCRIPTION, "xxxx")
+    const actualResponse = repository.retrieve(repository.searchMode.BY_TEXT, "xxxx")
 
     // assertions
     t.deepEqual(expectedResponse, actualResponse)

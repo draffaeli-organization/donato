@@ -1,21 +1,25 @@
 // recipes.js
 
-const recipeService = require('./../../service')
+const recipeServiceModule = require('./../../service')
+const criteriaFactory = recipeServiceModule.criteriaFactory
+const service = recipeServiceModule.service
 const router = require('express').Router();
 
 // retrieve recipes
 router.get('/recipes', (rq, rs) => {
     console.log('Processing GET /recipes')
-    let criteria = rq.query.criteria
-    rs.json(recipeService.fetch(criteria))
+    const criteria = criteriaFactory.create(rq.query)
+    console.log(`Finding recipes with "${Object.entries(criteria)}"`)
+    const result = service.fetch(criteria)
+    rs.json(result)
 })
+
 
 // retrieve specific recipe
 router.get('/recipes/:id', (rq, rs) => {
     const id = rq.params['id']
     console.log(`Processing GET /recipes/${id}`)
-
-    const recipe = recipeService.fetchById(id)
+    const recipe = service.fetchById(id)
     if (!recipe) {
         console.log(`recipe with id ${id} not found`)
         rs.status(404).send(`Resource ${id} not found`)

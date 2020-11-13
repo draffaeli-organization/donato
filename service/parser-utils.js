@@ -1,4 +1,4 @@
-// search-criteria-utils
+// parser-utils
 
 function isEmpty(rawCriteria) {
     // lazy
@@ -9,7 +9,5 @@ function sanitize(rawCriteria) {
     return rawCriteria.trim()
 }
 
-module.exports = {
-    isEmpty : isEmpty,
-    sanitize : sanitize
-}
+module.exports = { isEmpty, sanitize }
+

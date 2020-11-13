@@ -3,17 +3,26 @@
 const repositoryModule = require('./../repository')
 const repository = repositoryModule.repository
 const searchMode = repository.searchMode
-const criteriaUtils = repositoryModule.criteriaUtils
+const CriteriaType = require('./model/criteria').CriteriaType
+
+// WIP
+function sort(criteria) {
+    let recipes = fetch(criteria)
+
+    const sort_by = criteria.sort_by
+    recipes.sort((a,b) => {
+        //a[sort_by]
+    })
+}
 
 function fetch(criteria) {
     let recipes
-    if (criteriaUtils.isEmpty(criteria)) {
+    if (criteria.type === CriteriaType.ALL) {
         console.log(`Fetching all recipes`)
         recipes = repository.retrieveAll()
     } else {
-        const sanitizedCriteria = criteriaUtils.sanitize(criteria)
-        console.log(`Fetching recipes with "${sanitizedCriteria}" criteria`)
-        recipes = repository.retrieve(searchMode.BY_DESCRIPTION, sanitizedCriteria)
+        console.log(`Fetching recipes with "${criteria.seachValue}" search text`)
+        recipes = repository.retrieve(searchMode.BY_TEXT, criteria.searchValue)
     }
 
     if (recipes && recipes.length) {
@@ -36,8 +45,7 @@ function fetchById(id) {
     return recipe
 }
 
-module.exports.fetch = fetch
-module.exports.fetchById = fetchById
+module.exports = {fetch, fetchById }
 
 
 

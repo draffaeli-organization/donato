@@ -1,7 +1,7 @@
-// search-criteria-utils-test.js
+// parser-utils-test.js
 
 const test = require('ava')
-const criteriaUtils = require('./search-criteria-utils')
+const parserUtils = require('./parser-utils')
 
 // ---isEmpty tests
 
@@ -10,7 +10,7 @@ test("search-criteria-utils.isEmpty -> some string, return false", t => {
     const value = "pollo"
 
     // act
-    let actualResponse = criteriaUtils.isEmpty(value);
+    let actualResponse = parserUtils.isEmpty(value);
 
     // assertions
     t.false(actualResponse)
@@ -21,7 +21,7 @@ test("search-criteria-utils.isEmpty -> undefined, return true", t => {
     const value = undefined
 
     // act
-    let actualResponse = criteriaUtils.isEmpty(value);
+    let actualResponse = parserUtils.isEmpty(value);
 
     // assertions
     t.true(actualResponse)
@@ -32,7 +32,7 @@ test("search-criteria-utils.isEmpty -> blank spaces, return true", t => {
     const value = "       "
 
     // act
-    let actualResponse = criteriaUtils.isEmpty(value);
+    let actualResponse = parserUtils.isEmpty(value);
 
     // assersions
     t.true(actualResponse)
@@ -43,7 +43,7 @@ test("search-criteria-utils.isEmpty -> empty string, return true", t => {
     const value = ""
 
     // act
-    let actualResponse = criteriaUtils.isEmpty(value);
+    let actualResponse = parserUtils.isEmpty(value);
 
     // assersions
     t.true(actualResponse)
@@ -56,7 +56,7 @@ test("search-criteria-utils.sanitize -> string with blank spaces after and befor
     const value = " arroz con pollo      "
 
     // act
-    let actualResponse = criteriaUtils.sanitize(value);
+    let actualResponse = parserUtils.sanitize(value);
 
     // assersions
     t.is(actualResponse, "arroz con pollo")

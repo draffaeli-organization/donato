@@ -1,8 +1,8 @@
 // step.js
 
 class Step {
-    constructor(id, description) {
-        this.id = id
+    constructor(order, description) {
+        this.order = id
         this.description = description
     }
 }

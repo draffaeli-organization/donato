@@ -9,7 +9,6 @@ const encoding = 'utf8'
 
 function retrieveAll() {
     console.log('Retrieving recipes data from json file')
-
     let recipes
     try {
         const fileContent = fs.readFileSync(filePath, encoding)
@@ -28,13 +27,13 @@ function retrieve(mode, value) {
     console.log(`Filtering "${mode}" using "${value}"`)
     let result
 
-    const allRecipes = this.retrieveAll()
+    const allRecipes = retrieveAll()
     switch (mode) {
         case searchMode.BY_ID:
             console.log(`Filtering by recipe id "${value}"`)
             result = allRecipes.filter(recipe => recipe.id === value)[0]
             break
-        case searchMode.BY_DESCRIPTION:
+        case searchMode.BY_TEXT:
             const lowerCaseValue = value.toLowerCase()
             console.log(`Filtering by recipe name, description and/or ingredients for "${lowerCaseValue}"`)
             result = allRecipes.filter(recipe =>
@@ -50,7 +49,7 @@ function retrieve(mode, value) {
 
 const searchMode = {
     BY_ID: 'by_id',
-    BY_DESCRIPTION: 'by_description',
+    BY_TEXT: 'by_text',
 }
 
 module.exports.retrieveAll = retrieveAll

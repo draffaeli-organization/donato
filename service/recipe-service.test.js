@@ -1,87 +1,68 @@
 // recipe-service.test.js
 
-// search-criteria-utils-test.js
-
 const test = require('ava')
 const sinon = require('sinon')
 const service = require('./recipe-service')
-
 const repository = require('./../repository/recipe-repository')
-const criteriaUtils = require('./../repository/search-criteria-utils')
+const CriteriaBuilder = require('./../service/model/criteria').CriteriaBuilder
+const CriteriaType = require('./../service/model/criteria').CriteriaType
 
 // ---fetch tests
 
-test("recipe-service.fetch -> empty criteria, return all recipes", t => {
+test("recipe-service.fetch -> empty search text, return all recipes", t => {
     const sandbox = sinon.createSandbox();
 
     // arrange
     const expectedResponse = [{"name":"recipe1"},{"name":"recipe2"},{"name":"recipe3"},{"name":"recipe4"}]
-    const isEmptyStub = sandbox.stub(criteriaUtils, "isEmpty")
     const retrieveAllStub = sandbox.stub(repository, "retrieveAll")
-
-    isEmptyStub.returns(true)
     retrieveAllStub.returns(expectedResponse)
+    const newCriteria = new CriteriaBuilder().build()
 
     // act
-    const actualResponse = service.fetch("some empty criteria")
+    const actualResponse = service.fetch(newCriteria)
 
     // assertions
     t.deepEqual(expectedResponse, actualResponse)
     sinon.assert.calledOnce(retrieveAllStub)
-    sinon.assert.calledOnce(isEmptyStub)
 
     sandbox.restore()
 })
 
-test("recipe-service.fetch -> search criteria, found 1 recipe", t => {
+test("recipe-service.fetch -> search text, found 1 recipe", t => {
     const sandbox = sinon.createSandbox();
 
     // arrange
     const expectedResponse = [{"name":"recipe1"}]
-    const criteria = "some criteria   "
-    const sanitizedCriteria = "some criteria"
+    const newCriteria = new CriteriaBuilder().withSearchValue("some criteria").build()
 
-    const isEmptyStub = sandbox.stub(criteriaUtils, "isEmpty")
-    const sanitizeStub = sandbox.stub(criteriaUtils, "sanitize")
     const retrieveStub = sandbox.stub(repository, "retrieve")
-    isEmptyStub.returns(false)
-    sanitizeStub.withArgs(criteria).returns(sanitizedCriteria)
-    retrieveStub.withArgs(repository.searchMode.BY_DESCRIPTION, sanitizedCriteria).returns(expectedResponse)
+    retrieveStub.withArgs(repository.searchMode.BY_TEXT, "some criteria").returns(expectedResponse)
 
     // act
-    const actualResponse = service.fetch(criteria)
+    const actualResponse = service.fetch(newCriteria)
 
     // assertions
     t.deepEqual(expectedResponse, actualResponse)
-    sinon.assert.calledOnce(isEmptyStub)
-    sinon.assert.calledOnce(sanitizeStub)
     sinon.assert.calledOnce(retrieveStub)
 
     sandbox.restore()
 })
 
-test("recipe-service.fetch -> search criteria, recipes not found, empty response", t => {
+test("recipe-service.fetch -> search text, recipes not found, empty response", t => {
     const sandbox = sinon.createSandbox();
 
     // arrange
     const expectedResponse = []
-    const criteria = "some criteria   "
-    const sanitizedCriteria = "some criteria"
+    const newCriteria = new CriteriaBuilder().withSearchValue("some criteria").build()
 
-    const isEmptyStub = sandbox.stub(criteriaUtils, "isEmpty")
-    const sanitizeStub = sandbox.stub(criteriaUtils, "sanitize")
     const retrieveStub = sandbox.stub(repository, "retrieve")
-    isEmptyStub.returns(false)
-    sanitizeStub.withArgs(criteria).returns(sanitizedCriteria)
-    retrieveStub.withArgs(repository.searchMode.BY_DESCRIPTION, sanitizedCriteria).returns(expectedResponse)
+    retrieveStub.withArgs(repository.searchMode.BY_TEXT, "some criteria").returns(expectedResponse)
 
     // act
-    const actualResponse = service.fetch(criteria)
+    const actualResponse = service.fetch(newCriteria)
 
     // assertions
     t.is(expectedResponse, actualResponse)
-    sinon.assert.calledOnce(isEmptyStub)
-    sinon.assert.calledOnce(sanitizeStub)
     sinon.assert.calledOnce(retrieveStub)
 
     sandbox.restore()
