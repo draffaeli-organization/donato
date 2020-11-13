@@ -7,20 +7,20 @@ const punctuationValidator = recipeServiceModule.punctuationValidator
 const router = require('express').Router();
 
 // retrieve recipes
-router.get('/recipes', (rq, rs) => {
+router.get('/recipes', async (rq, rs) => {
     console.log('Processing GET /recipes')
     const criteria = criteriaFactory.create(rq.query)
     console.log(`Finding recipes with "${Object.entries(criteria)}"`)
-    const result = service.fetch(criteria)
+    const result = await service.fetch(criteria)
     rs.json(result)
 })
 
 
 // retrieve specific recipe
-router.get('/recipes/:id', (rq, rs) => {
+router.get('/recipes/:id', async (rq, rs) => {
     const id = rq.params['id']
     console.log(`Processing GET /recipes/${id}`)
-    const recipe = service.fetchById(id)
+    const recipe = await service.fetchById(id)
     if (!recipe) {
         console.log(`recipe with id ${id} not found`)
         rs.status(404).send(`Resource ${id} not found`)
