@@ -1,6 +1,7 @@
 // recipe-repository
 // json file-system impl
 
+// TODO: improve to use fs.promises
 const fs = require('fs')
 const path = require('path')
 
@@ -47,6 +48,26 @@ function retrieve(mode, value) {
     return result;
 }
 
+// TODO: refactor and improve
+// TODO: missing ut
+function addPunctuation(id, punctuationValue) {
+    fs.readFile(filePath, encoding, function readFileCallback(err, data){
+        if (err){
+            console.log(err);
+        } else {
+            let recipesJson = JSON.parse(data);
+
+            let recipeToUpdate = recipesJson.items.filter(rc => rc.id === parseInt(id))[0]
+            console.log(recipeToUpdate)
+            recipeToUpdate.punctuation.values.push(parseInt(punctuationValue))
+            const avg = recipeToUpdate.punctuation.values.reduce((a, b) => a + b, 0) / recipeToUpdate.punctuation.values.length
+            recipeToUpdate.punctuation.average = avg
+            console.log(recipeToUpdate)
+            fs.writeFileSync(filePath, JSON.stringify(recipesJson), 'utf8')
+        }
+    });
+}
+
 const searchMode = {
     BY_ID: 'by_id',
     BY_TEXT: 'by_text',
@@ -55,3 +76,4 @@ const searchMode = {
 module.exports.retrieveAll = retrieveAll
 module.exports.retrieve = retrieve
 module.exports.searchMode = searchMode
+module.exports.addPunctuation = addPunctuation

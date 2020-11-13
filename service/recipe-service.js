@@ -37,7 +37,7 @@ function fetch(criteria) {
 }
 
 function fetchById(id) {
-    console.log(`fetching recipe with id ${id} from repository`)
+    console.log(`Fetching recipe with id ${id} from repository`)
     const recipe = repository.retrieve(searchMode.BY_ID, parseInt(id))
     if (recipe) {
         console.log(`recipe found: ${recipe}` )
@@ -45,7 +45,13 @@ function fetchById(id) {
     return recipe
 }
 
-module.exports = {fetch, fetchById }
+function appendPunctuation(id, punctuationValue) {
+    console.log(`Appending punctuation value ${punctuationValue} to recipe with id ${id}`)
+    repository.addPunctuation(id, punctuationValue)
+}
+
+module.exports = {fetch, fetchById, appendPunctuation }
+
 
 
 

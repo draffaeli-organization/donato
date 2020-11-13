@@ -4,10 +4,11 @@ const express = require('express')
 const http = require('http');
 const routes = require('./routes')
 const interceptors = require('./interceptors')
+const bodyParser = require('body-parser');
 
 const expressApp = express()
-
 // parser
+expressApp.use(bodyParser.json())
 
 // interceptors & error handling
 expressApp.use('/', interceptors)
