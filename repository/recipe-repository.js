@@ -8,27 +8,30 @@ const path = require('path')
 const filePath = path.join(__dirname, 'data/recipes.json')
 const encoding = 'utf8'
 
-function retrieveAll() {
-    console.log('Retrieving recipes data from json file')
-    let recipes
-    try {
-        const fileContent = fs.readFileSync(filePath, encoding)
-        console.log(`File content retrieved ${fileContent}`)
-        recipes = JSON.parse(fileContent).items;
-    } catch (err) {
-        console.log("Error trying to read file " + filePath)
-        console.log(err)
-        throw err
-    }
+async function retrieveAll() {
+    let promise = new Promise( (resolve, reject) => {
+        console.log('Retrieving recipes data from json file')
+        let recipes
+        try {
+            const fileContent = fs.readFileSync(filePath, encoding)
+            console.log(`File content retrieved ${fileContent}`)
+            recipes = JSON.parse(fileContent).items;
+        } catch (err) {
+            console.log("Error trying to read file " + filePath)
+            console.log(err)
+            reject(err)
+        }
+        resolve(recipes)
+    })
+    return promise
 
-    return recipes;
 }
 
-function retrieve(mode, value) {
+async function retrieve(mode, value) {
     console.log(`Filtering "${mode}" using "${value}"`)
     let result
 
-    const allRecipes = retrieveAll()
+    const allRecipes = await retrieveAll()
     switch (mode) {
         case searchMode.BY_ID:
             console.log(`Filtering by recipe id "${value}"`)

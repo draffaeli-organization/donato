@@ -15,14 +15,14 @@ function sort(criteria) {
     })
 }
 
-function fetch(criteria) {
+async function fetch(criteria) {
     let recipes
     if (criteria.type === CriteriaType.ALL) {
         console.log(`Fetching all recipes`)
-        recipes = repository.retrieveAll()
+        recipes = await repository.retrieveAll()
     } else {
         console.log(`Fetching recipes with "${criteria.seachValue}" search text`)
-        recipes = repository.retrieve(searchMode.BY_TEXT, criteria.searchValue)
+        recipes = await repository.retrieve(searchMode.BY_TEXT, criteria.searchValue)
     }
 
     if (recipes && recipes.length) {
@@ -36,9 +36,9 @@ function fetch(criteria) {
     return recipes
 }
 
-function fetchById(id) {
+async function fetchById(id) {
     console.log(`Fetching recipe with id ${id} from repository`)
-    const recipe = repository.retrieve(searchMode.BY_ID, parseInt(id))
+    const recipe = await repository.retrieve(searchMode.BY_ID, parseInt(id))
     if (recipe) {
         console.log(`recipe found: ${recipe}` )
     }
