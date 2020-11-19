@@ -36,6 +36,41 @@ function fetch(criteria) {
     return recipes
 }
 
+function fetchCallBack(criteria, callback) {
+    let recipes
+    if (criteria.type === CriteriaType.ALL) {
+        console.log(`Fetching all recipes`)
+        repository.retrieveAllCallback((err, data) => {
+            if (err) {
+                callback(err)
+            } else {
+                logResponse(data)
+                callback(null, data)
+            }
+        })
+    } else {
+        console.log(`Fetching recipes with "${criteria.seachValue}" search text`)
+        repository.retrieveCallback(searchMode.BY_TEXT, criteria.searchValue, (err, data) => {
+            if (err) {
+                callback(err)
+            } else {
+                logResponse(data)
+                callback(null, data)
+            }
+        })
+    }
+}
+
+function logResponse(recipes) {
+    if (recipes && recipes.length) {
+        let recipesNames = ""
+        recipes.forEach(recipe => recipesNames += "\"" + recipe.name + "\" ")
+        console.log('Found ' + recipes.length + ' recipes: ' + recipesNames)
+    } else {
+        console.log('Recipes not found')
+    }
+}
+
 function fetchById(id) {
     console.log(`Fetching recipe with id ${id} from repository`)
     const recipe = repository.retrieve(searchMode.BY_ID, parseInt(id))
@@ -50,7 +85,7 @@ function appendPunctuation(id, punctuationValue) {
     repository.addPunctuation(id, punctuationValue)
 }
 
-module.exports = {fetch, fetchById, appendPunctuation }
+module.exports = {fetch, fetchById, appendPunctuation, fetchCallBack }
 
 
 

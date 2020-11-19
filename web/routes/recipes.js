@@ -6,15 +6,28 @@ const service = recipeServiceModule.service
 const punctuationValidator = recipeServiceModule.punctuationValidator
 const router = require('express').Router();
 
-// retrieve recipes
+/*// retrieve recipes
 router.get('/recipes', (rq, rs) => {
     console.log('Processing GET /recipes')
     const criteria = criteriaFactory.create(rq.query)
     console.log(`Finding recipes with "${Object.entries(criteria)}"`)
     const result = service.fetch(criteria)
     rs.json(result)
-})
+})*/
 
+// retrieve recipes
+router.get('/recipes', (rq, rs, next) => {
+    console.log('Processing GET /recipes')
+    const criteria = criteriaFactory.create(rq.query)
+    console.log(`Finding recipes with "${Object.entries(criteria)}"`)
+    service.fetchCallBack(criteria, (err, result) => {
+        if (err) {
+            next(err)
+        } else {
+            rs.json(result)
+        }
+    })
+})
 
 // retrieve specific recipe
 router.get('/recipes/:id', (rq, rs) => {
@@ -28,6 +41,8 @@ router.get('/recipes/:id', (rq, rs) => {
         rs.json(recipe)
     }
 })
+
+
 
 // add new punctuation to a recipe
 router.post('/recipes/:id/punctuations', (rq, rs) => {

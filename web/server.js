@@ -10,11 +10,11 @@ const expressApp = express()
 // parser
 expressApp.use(bodyParser.json())
 
-// interceptors & error handling
-expressApp.use('/', interceptors)
-
 // routes
-routes.forEach(r => expressApp.use('/',r))
+routes.forEach(r => expressApp.use('/', r))
+
+// error handling
+expressApp.use(interceptors.errorHandler)
 
 // server init
 const port = 3000
