@@ -1,5 +1,7 @@
 // query-param-parser.js
 
+const parserUtils = require('./parser-utils')
+
 // TODO: refactor to reduce code
 function parse(rawQueryParam) {
     console.log(`Parsing query params "${rawQueryParam}"`)
@@ -7,17 +9,17 @@ function parse(rawQueryParam) {
 
     const searchTextValue = rawQueryParam[QueryKey.SEARCH_TEXT]
 
-    if (!isEmpty(searchTextValue)) {
+    if (!parserUtils.isEmpty(searchTextValue)) {
         console.log("parsing search text")
-        parsedParams[QueryKey.SEARCH_TEXT] = sanitize(searchTextValue)
+        parsedParams[QueryKey.SEARCH_TEXT] = parserUtils.sanitize(searchTextValue)
     }
 
     const fieldsSelectionValue = rawQueryParam[QueryKey.FIELDS_SELECTION]
-    if (!isEmpty(fieldsSelectionValue)) {
+    if (!parserUtils.isEmpty(fieldsSelectionValue)) {
         console.log("parsing fields selection")
         const validFields = fieldsSelectionValue
             .split(",")
-            .map(f => sanitize(f))
+            .map(f => parserUtils.sanitize(f))
             .filter(f => fieldsSelection.some(validField => validField === f ))
             .join()
         if (validFields.length) {
@@ -26,9 +28,9 @@ function parse(rawQueryParam) {
     }
 
     const rawSortingFieldValue = rawQueryParam[QueryKey.SORTING_FIELD]
-    if (!isEmpty(rawSortingFieldValue)) {
+    if (!parserUtils.isEmpty(rawSortingFieldValue)) {
         console.log("parsing sorting field")
-        const sanitizedSortingFieldValue = sanitize(rawSortingFieldValue)
+        const sanitizedSortingFieldValue = parserUtils.sanitize(rawSortingFieldValue)
         if (fieldsSelection.some(f => f === sanitizedSortingFieldValue)) {
             parsedParams[QueryKey.SORTING_FIELD] = sanitizedSortingFieldValue
             parsedParams[QueryKey.ORDER_FIELD] = resolveOrderValue(rawQueryParam[QueryKey.ORDER_FIELD])
@@ -38,17 +40,9 @@ function parse(rawQueryParam) {
     return parsedParams
 }
 
-function isEmpty(value) {
-    return !value || !value.trim().length
-}
-
-function sanitize(value) {
-    return value.trim().toLowerCase()
-}
-
 function resolveOrderValue(rawOrderFieldValue) {
     if (rawOrderFieldValue) {
-        const sanitized = sanitize(rawOrderFieldValue)
+        const sanitized = parserUtils.sanitize(rawOrderFieldValue)
         if (sanitized === Order.ASC) {
             return Order.ASC
         }

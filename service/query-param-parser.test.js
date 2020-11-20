@@ -10,7 +10,6 @@ const field = parser.FieldSelection
 test("query-param-parser.parse -> invalid keys, return empty array", t => {
     // arrange
     const expectedResponse = []
-
     const rawQueryParam = {
         search_key : "some_value",
         key1 : "some value",

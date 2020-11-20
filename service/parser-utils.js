@@ -1,12 +1,12 @@
 // parser-utils
 
-function isEmpty(rawCriteria) {
+function isEmpty(value) {
     // lazy
-    return !rawCriteria || !rawCriteria.trim().length
+    return !value || !value.trim().length
 }
 
-function sanitize(rawCriteria) {
-    return rawCriteria.trim()
+function sanitize(value) {
+    return value.trim().toLowerCase()
 }
 
 module.exports = { isEmpty, sanitize }

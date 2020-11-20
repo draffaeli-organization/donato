@@ -5,7 +5,6 @@ const sinon = require('sinon')
 const factory = require('./criteria-factory')
 const parser = require('./query-param-parser')
 const CriteriaBuilder = require("./model/criteria").CriteriaBuilder
-const CriteriaType = require("./model/criteria").CriteriaType
 
 // ---create tests
 
