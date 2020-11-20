@@ -56,16 +56,17 @@ function addPunctuation(id, punctuationValue) {
             console.log(err);
         } else {
             let recipesJson = JSON.parse(data);
-
             let recipeToUpdate = recipesJson.items.filter(rc => rc.id === parseInt(id))[0]
-            console.log(recipeToUpdate)
             recipeToUpdate.punctuation.values.push(parseInt(punctuationValue))
-            const avg = recipeToUpdate.punctuation.values.reduce((a, b) => a + b, 0) / recipeToUpdate.punctuation.values.length
-            recipeToUpdate.punctuation.average = avg
+            recipeToUpdate.punctuation.average = punctuationAvg(recipeToUpdate)
             console.log(recipeToUpdate)
             fs.writeFileSync(filePath, JSON.stringify(recipesJson), 'utf8')
         }
     });
+}
+
+function punctuationAvg(recipe) {
+    return recipe.punctuation.values.reduce((a, b) => a + b, 0) / recipe.punctuation.values.length
 }
 
 const searchMode = {
